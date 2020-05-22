@@ -7,58 +7,17 @@ logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
 
 class Parser(object):
     """Defines the common interface for parser objects.
-    Parsers transofrm natural text into graphbrain hyperedges.
+    Parser transofrm natural text into graphbrain hyperedges.
     """
 
-    def __init__(self, lemmas=False, resolve_corefs=False):
+    def __init__(self, lemmas=False):
         self.lemmas = lemmas
-        self.resolve_corefs = resolve_corefs
+        self.atom2token = {}
+        self.cur_text = None
 
         # to be created by derived classes
         self.lang = None
-
-    def parse(self, text):
-        """Transforms the given text into hyperedges + aditional information.
-        Returns a dictionary with two fields:
-
-        -> parses: a sequence of dictionaries, with one dictionary for each
-        sentence found in the text.
-
-        -> inferred_edges: a sequence of edges inferred during by parsing
-        process (e.g. genders, 'X is Y' relationships)
-
-        Each sentence parse dictionary contains at least the following fields:
-
-        -> main_edge: the hyperedge corresponding to the sentence.
-
-        -> resolved_corefs: main_edge with coreferences resolved, can be the
-        same as main_edge if coreference resolution is not performed.
-
-        -> extra_edges: aditional edges, e.g. connecting atoms that appear
-        in the main_edge to their lemmas.
-
-        -> text: the string of natural language text corresponding to the
-        main_edge, i.e.: the sentence itself.
-
-        -> edges_text: a dictionary of all edges and subedges to their
-        corresponding text.
-        """
-        parse_results = self._parse(text)
-        if self.resolve_corefs:
-            self._resolve_corefs(parse_results)
-        return parse_results
-
-    def atom_gender(self, atom):
-        raise NotImplementedError()
-
-    def atom_number(self, atom):
-        raise NotImplementedError()
-
-    def atom_person(self, atom):
-        raise NotImplementedError()
-
-    def atom_animacy(self, atom):
-        raise NotImplementedError()
+        self.nlp = None
 
     def _post_process(self, edge):
         raise NotImplementedError()
@@ -70,12 +29,43 @@ class Parser(object):
         raise NotImplementedError()
 
     def _parse_sentence(self, sent):
-        raise NotImplementedError()
+        try:
+            self._before_parse_sentence()
+            self.atom2token = {}
+            main_edge, extra_edges = self._parse_token(sent.root)
+            if main_edge:
+                main_edge, _ = self._post_process(main_edge)
 
-    def _parse(self, text):
-        raise NotImplementedError()
+            return {'main_edge': main_edge,
+                    'extra_edges': extra_edges,
+                    'text': str(sent).strip(),
+                    'spacy_sentence': sent}
+        except Exception as e:
+            logging.error('Caught exception: {} while parsing: "{}"'.format(
+                str(e), str(sent)))
+            return {'main_edge': None,
+                    'extra_edges': [],
+                    'text': '',
+                    'spacy_sentence': None}
 
-    def _resolve_corefs(self, parse_results):
-        # do nothing if not implemented in derived classes
-        for parse in parse_results['parses']:
-            parse['resolved_corefs'] = parse['main_edge']
+    def parse(self, text):
+        """Transforms the given text into hyperedges + aditional information.
+        Returns a sequence of dictionaries, with one dictionary for each
+        sentence found in the text.
+
+        Each dictionary contains the following fields:
+
+        -> main_edge: the hyperedge corresponding to the sentence.
+
+        -> extra_edges: aditional edges, e.g. connecting atoms that appear
+        in the main_edge to their lemmas.
+
+        -> text: the string of natural language text corresponding to the
+        main_edge, i.e.: the sentence itself.
+
+        -> spacy_sentence: the spaCy structure representing the sentence
+        enriched with NLP annotations.
+        """
+        self.cur_text = text
+        doc = self.nlp(text.strip())
+        return tuple(self._parse_sentence(sent) for sent in doc.sents)

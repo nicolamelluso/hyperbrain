@@ -1,15 +1,10 @@
 # Pre-defined system atoms
-sequence_pred = 'seq/P/.'
-noun_connector_pred = '+/B/.'
-lemma_pred = 'lemma/P/.'
-coref_pred = 'coref/P/.'
-main_coref_pred = 'main_coref/P/.'
-type_of_pred = 'type_of/P/.'
-is_pred = 'is/P/.'
-possessive_builder = 'poss/Bp.am/.'
-gender_pred = 'gender/P/.'
-number_pred = 'number/P/.'
-animacy_pred = 'animacy/P/.'
+sequence_pred = 'seq/p/.'
+noun_connector_pred = '+/b/.'
+lemma_pred = 'lemma/p/.'
+coref_pred = 'coref/p/.'
+main_coref_pred = 'main_coref/p/.'
+type_of_pred = 'type_of/p/.'
 
 # Pre-defined entity keys
 coref_set_id_key = 'coref'

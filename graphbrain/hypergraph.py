@@ -1,6 +1,5 @@
 import graphbrain.constants as const
 from graphbrain.hyperedge import *
-from graphbrain.logic import eval_rule
 
 
 class Hypergraph(object):
@@ -69,20 +68,18 @@ class Hypergraph(object):
         """Checks if the given edge exists."""
         return self._exists(hedge(edge))
 
-    def add(self, edge, primary=True, count=False):
+    def add(self, edge, primary=True):
         """Adds an edge if it does not exist yet, returns same edge.
         All children are recursively added as non-primary edge, for
         indexing purposes.
 
         Edges can be passed in both Hyperedge or string format.
 
-        Keyword arguments:
+        Keyword argument:
         primary -- edge is primary, meaning, for example, that it counts
         towards degrees. Non-primary edges are used for indexing purposes,
         for example to make it easy to find the subedges contained in primary
         edges when performing queries.
-        count -- an integer counter attribute is added to the edge. If the
-        edge already exists, the counter is incremented.
         """
         if isinstance(edge, Hyperedge):
             if edge.is_atom():
@@ -92,13 +89,7 @@ class Hypergraph(object):
                 for child in edge:
                     self.add(child, primary=False)
                 # add entity itself
-                self._add(edge, primary=primary)
-
-                # increment counter if requested
-                if count:
-                    self.inc_attribute(edge, 'count')
-
-                return edge
+                return self._add(edge, primary=primary)
         else:
             return self.add(hedge(edge), primary=primary)
 
@@ -131,7 +122,7 @@ class Hypergraph(object):
         -> '...' at the end indicates an open-ended pattern.
 
         The pattern can be a string, that must represent an edge.
-        Examples: '(is/Pd graphbrain/C @)'
+        Examples: '(is/pd graphbrain/c @)'
         '(says/pd * ...)'
 
         Atomic patterns can also be used to match all edges in the
@@ -151,13 +142,6 @@ class Hypergraph(object):
             return self.all()
         else:
             return self._search(pattern)
-
-    def match(self, pattern, curvars={}):
-        pattern = hedge(pattern)
-        return self._match(pattern, curvars=curvars)
-
-    def eval(self, rule):
-        return eval_rule(self, rule)
 
     def search_count(self, pattern):
         """Number of edges that match a pattern.
@@ -216,9 +200,7 @@ class Hypergraph(object):
         return self._set_attribute(hedge(edge), attribute, value)
 
     def inc_attribute(self, edge, attribute):
-        """Increments an attribute of an entity, sets initial value to 1
-        if attribute does not exist.
-        """
+        """Increments an attribute of an entity."""
         return self._inc_attribute(hedge(edge), attribute)
 
     def dec_attribute(self, edge, attribute):
@@ -304,7 +286,8 @@ class Hypergraph(object):
         return sum([self.deep_degree(edge) for edge in edges])
 
     def add_to_sequence(self, name, pos, edge):
-        """Adds 'edge' to sequence 'name' at position 'pos'."""
+        """Adds 'edge' to sequence 'name' at position 'pos'.
+        """
         return self.add((const.sequence_pred, name, str(pos), edge))
 
     def sequence(self, name):
@@ -343,9 +326,6 @@ class Hypergraph(object):
         raise NotImplementedError()
 
     def _search(self, pattern):
-        raise NotImplementedError()
-
-    def _match(self, pattern, curvars={}):
         raise NotImplementedError()
 
     def _star(self, center, limit=None):

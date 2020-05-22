@@ -7,7 +7,7 @@ from setuptools.extension import Extension
 # True to enable building extensions using Cython.
 # False to build extensions from the C files that were previously
 # created by Cython.
-USE_CYTHON = True
+USE_CYTHON = False
 
 # "If True, will produce a HTML file for each of the .pyx or .py files
 # compiled. The HTML file gives an indication of how much Python interaction
@@ -72,10 +72,13 @@ setup(
     version=VERSION,
     author='Telmo Menezes et al.',
     author_email='telmo@telmomenezes.net',
-    description='A fork of graphbrain',
+    description='Knowledge System + Natural Language Understanding',
     long_description=long_description,
     long_description_content_type='text/markdown',
+    url='http://graphbrain.net',
     license='MIT',
+    keywords=['NLP', 'AI', 'Knowledge Representation', 'Knowledge Systems',
+              'Natural Language Understanding', 'Text Analysis', 'Cognition'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 3',
@@ -87,16 +90,15 @@ setup(
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Topic :: Sociology'
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.4',
     packages=find_packages(),
     install_requires=[
         'numpy',
-        'spacy==2.1',
-        'neuralcoref==4.0.0',
-        'plyvel',
-        'python-igraph',
         'termcolor',
+        'spacy',
+        'python-igraph',
         'asciitree',
+        'plyvel',
         'ipython',
         'progressbar2',
         'unidecode'
