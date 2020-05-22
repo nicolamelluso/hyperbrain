@@ -11,18 +11,19 @@ class hyperGraph(object):
         self.sents = {}
         
 
-    def import_sent(self, edge, sent, sentId):
+    def import_sent(self, edge, sentId, text = None):
         ''' Import an edge sentence'''
                 
-        self.sents[sentId] = hyperSent(edge, sent, sentId)
+        self.sents[sentId] = hyperSent(edge, sentId, text = text)
 
 
 class hyperSent(object):
-    def __init__(self, edge, sent, sentId):
+    def __init__(self, edge, sentId = None, text = None):
         
         self.sentId = sentId
         self.edge = edge
-        self.text = sent
+        self.label = edge.label()
+        self.text = text
         self.verb = self.edge[0].predicate().label()
         self.hedges = []
         
@@ -94,13 +95,15 @@ class hyperSent(object):
         edge_list = [(id,edge) for (id,edge) in edges if 'r' in edge.type()]
 
         for id,edge in edge_list:
-            print(edge)
-            print('---')
+            #print(edge)
+            #print('---')
             self.hedges.extend(self.verb_split(edge = edge, id = id))
 
     def __repr__(self):
-        
-        return(self.text)
+        if self.text is not None:
+            return(self.text)
+        else:
+            return(self.label)
 
     def __getitem__(self, sentNumber):
           return self.hedges[sentNumber]
@@ -116,6 +119,7 @@ class hyperEdge(object):
         self.verb = None
         self.text = None
         self.hypersent = None
+        
         
     def __repr__(self):
         show(self.edge, roots_only = False, style='oneline')
