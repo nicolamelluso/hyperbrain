@@ -1447,7 +1447,7 @@ static const char __pyx_k_is_compound[] = "_is_compound";
 static const char __pyx_k_concept_role[] = "_concept_role";
 static const char __pyx_k_head_subtype[] = "head_subtype";
 static const char __pyx_k_verb_features[] = "_verb_features";
-static const char __pyx_k_en_core_web_md[] = "en_core_web_md";
+static const char __pyx_k_en_core_web_sm[] = "en_core_web_sm";
 static const char __pyx_k_ParserEN___init[] = "ParserEN.__init__";
 static const char __pyx_k_token_head_type[] = "_token_head_type";
 static const char __pyx_k_ParserEN__is_noun[] = "ParserEN._is_noun";
@@ -1592,7 +1592,7 @@ static PyObject *__pyx_n_u_dobj;
 static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_edge;
 static PyObject *__pyx_n_u_en;
-static PyObject *__pyx_n_u_en_core_web_md;
+static PyObject *__pyx_n_u_en_core_web_sm;
 static PyObject *__pyx_n_u_expl;
 static PyObject *__pyx_n_u_f;
 static PyObject *__pyx_n_s_features;
@@ -1839,7 +1839,7 @@ static PyObject *__pyx_pf_10graphbrain_7parsers_9parser_en_8ParserEN___init__(CY
  *     def __init__(self, lemmas=False):
  *         super().__init__(lemmas=lemmas)             # <<<<<<<<<<<<<<
  *         self.lang = 'en'
- *         self.nlp = spacy.load('en_core_web_md')
+ *         self.nlp = spacy.load('en_core_web_sm')
  */
   __pyx_t_1 = __Pyx_CyFunction_GetClassObj(__pyx_self);
   if (!__pyx_t_1) { PyErr_SetString(PyExc_SystemError, "super(): empty __class__ cell"); __PYX_ERR(0, 10, __pyx_L1_error) }
@@ -1871,7 +1871,7 @@ static PyObject *__pyx_pf_10graphbrain_7parsers_9parser_en_8ParserEN___init__(CY
  *     def __init__(self, lemmas=False):
  *         super().__init__(lemmas=lemmas)
  *         self.lang = 'en'             # <<<<<<<<<<<<<<
- *         self.nlp = spacy.load('en_core_web_md')
+ *         self.nlp = spacy.load('en_core_web_sm')
  * 
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lang, __pyx_n_u_en) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
@@ -1879,7 +1879,7 @@ static PyObject *__pyx_pf_10graphbrain_7parsers_9parser_en_8ParserEN___init__(CY
   /* "graphbrain/parsers/parser_en.pyx":12
  *         super().__init__(lemmas=lemmas)
  *         self.lang = 'en'
- *         self.nlp = spacy.load('en_core_web_md')             # <<<<<<<<<<<<<<
+ *         self.nlp = spacy.load('en_core_web_sm')             # <<<<<<<<<<<<<<
  * 
  *     # ===========================================
  */
@@ -1898,7 +1898,7 @@ static PyObject *__pyx_pf_10graphbrain_7parsers_9parser_en_8ParserEN___init__(CY
       __Pyx_DECREF_SET(__pyx_t_2, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_1, __pyx_n_u_en_core_web_md) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_n_u_en_core_web_md);
+  __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_1, __pyx_n_u_en_core_web_sm) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_n_u_en_core_web_sm);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -8312,7 +8312,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_edge, __pyx_k_edge, sizeof(__pyx_k_edge), 0, 0, 1, 1},
   {&__pyx_n_u_en, __pyx_k_en, sizeof(__pyx_k_en), 0, 1, 0, 1},
-  {&__pyx_n_u_en_core_web_md, __pyx_k_en_core_web_md, sizeof(__pyx_k_en_core_web_md), 0, 1, 0, 1},
+  {&__pyx_n_u_en_core_web_sm, __pyx_k_en_core_web_sm, sizeof(__pyx_k_en_core_web_sm), 0, 1, 0, 1},
   {&__pyx_n_u_expl, __pyx_k_expl, sizeof(__pyx_k_expl), 0, 1, 0, 1},
   {&__pyx_n_u_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 1, 0, 1},
   {&__pyx_n_s_features, __pyx_k_features, sizeof(__pyx_k_features), 0, 0, 1, 1},
