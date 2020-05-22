@@ -1,0 +1,14 @@
+numpy
+termcolor
+spacy
+python-igraph
+asciitree
+plyvel
+ipython
+progressbar2
+unidecode
+
+[dev]
+cython
+Sphinx
+sphinx_rtd_theme
